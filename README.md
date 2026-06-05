@@ -1,5 +1,5 @@
 # GLSL to TypeScript
- [A GLSL-to-TypeScript compiler](https://jarble.github.io/glsl-to-typescript/glsl_to_typescript.html#function%20add(a,b):number%7B%0Areturn%20a%20+%20b;%0A%7D)
+ [A GLSL-to-TypeScript compiler](https://jarble.github.io/glsl-to-typescript/glsl_to_typescript.html)
 
 Still a work-in-progress.
 ## GLSL input:
