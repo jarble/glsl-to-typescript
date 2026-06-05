@@ -2,221 +2,241 @@
  [A GLSL-to-TypeScript compiler](https://jarble.github.io/typescript-to-glsl/typescript_to_glsl.html#function%20add(a,b):number%7B%0Areturn%20a%20+%20b;%0A%7D)
 
 Still a work-in-progress.
-## TypeScript input:
+## GLSL input:
 ```
-// --- Top-level constants and variables ---
-const PI = Math.PI;
-var a = "Hello";
-a[0] /= 1;
+// Single line comment
 
-var nums = [1,2,3,4];
-var grid: number[][] = [
-    [1,2],
-    [3,4]
-];
-var message = "Hello";  // will be converted to float[]
+/*
+Multi-line comment
+*/
 
-// --- Top-level increment/decrement ---
-nums[2]++;
-nums[1]--;
+struct Light {
+    vec3 position;
+    vec3 color;
+    float intensity;
+};
 
-// --- Class declaration ---
-class Vec2 {
-    x: number;
-    y: number;
+uniform vec3 cameraPosition;
+attribute vec3 vertexPosition;
+varying vec2 uv;
+
+const float PI = 3.14159265;
+
+float multiply(float x, float y) {
+    return x * y;
 }
 
-// --- Function declarations ---
-function add(a: number, b: number): number {
+int add(int a, int b) {
     return a + b;
 }
 
-function computePower(a: number, b: number): number {
-    var result: number = a ** b;
+vec3 normalizeColor(in vec3 c) {
+    return normalize(c);
+}
+
+void modifyColor(
+    in vec3 inputColor,
+    out vec3 outputColor,
+    inout float factor
+) {
+    factor = factor * 2.0;
+
+    outputColor =
+        normalize(
+            inputColor *
+            factor
+        );
+}
+
+float complexMath(float x) {
+
+    float a = sin(x);
+
+    float b =
+        cos(x) +
+        sqrt(x);
+
+    float c =
+        pow(a,b) +
+        abs(x);
+
+    return c;
+}
+
+vec3 testVectors() {
+
+    vec2 a =
+        vec2(
+            1.0,
+            2.0
+        );
+
+    vec3 b =
+        vec3(
+            3.0,
+            4.0,
+            5.0
+        );
+
+    vec4 c =
+        vec4(
+            1.0,
+            2.0,
+            3.0,
+            4.0
+        );
+
+    vec3 result =
+        normalize(
+            b +
+            vec3(
+                a.x,
+                a.y,
+                c.z
+            )
+        );
+
     return result;
 }
 
+float loopsAndConditions(int limit) {
 
-function matrixSum(m: number[][]): number {
-    var sum: number = 0;
-    for(var i:float = 0; i < 2; i++){
-        for(var j:float = 0; j < 2; j++){
-            sum += m[i][j];
+    float total = 0.0;
+
+    for(
+        int i = 0;
+        i < limit;
+        i = i + 1
+    ){
+
+        if(
+            i < 5 &&
+            i != 2
+        ){
+
+            total =
+                total +
+                float(i);
+
+        } else {
+
+            total =
+                total -
+                1.0;
+
         }
     }
-    return sum;
-}
 
-function chooseValue(x: number): number {
-    return x > 5 ? 10 : x == 5 ? 5 : 0;
-}
+    while(
+        total < 100.0
+    ){
 
-// --- Main function demonstrating features ---
-function main(): void {
-    
-    var intensity:float = pos.x * grid[0][1];
-
-    // Math functions
-    var angle: number = Math.atan2(pos.y, pos.x);
-    var maxVal: number = Math.max(nums[0], nums[1]);
-
-    // Increment/decrement
-    nums[0]++;
-    nums[1]--;
-
-    // Ternary usage
-    var val:float = chooseValue(nums[0]);
-
-    // If/else
-    if(nums[0] > 5){
-        nums[0] = 0;
-    } else if(nums[0] == 5){
-        nums[0] = 1;
-    } else {
-        nums[0] = -1;
+        total =
+            total +
+            10.0;
     }
 
-    // While loop
-    var counter: number = 0;
-    while(counter < 3){
-        counter++;
-    }
-
-    // Do-while loop
-    var d: number = 0;
     do {
-        d++;
-    } while(d < 2);
 
-    // Switch statement
-    switch(nums[0]){
+        total =
+            total -
+            5.0;
+
+    } while(
+        total > 50.0
+    );
+
+    return total;
+}
+
+float switchExample(int mode){
+
+    float result = 0.0;
+
+    switch(mode){
+
         case 0:
-            nums[0] = 100;
-            break;
+            result = 10.0;
+
         case 1:
-            nums[0] = 200;
-            break;
+            result = 20.0;
+
         default:
-            nums[0] = -1;
+            result = 99.0;
     }
 
-    // Compute matrix sum
-    var total:float = matrixSum(grid);
-
-    // Compute power
-    var power: number = computePower(2,3);
-
-    // Log all results (just for demonstration)
-
+    return result;
 }
 
-// Execute main
-main();
-```
-## GLSL output:
-```
-// --- Top-level constants and variables ---
+void arraysExample() {
 
-a_compiled = 1.0;
-b_compiled = 2.0;
-#define PI_compiled Math_compiled.PI_compiled
+    float values[];
 
-#define a_compiled float[](72.0,101.0,108.0,108.0,111.0)
+    values[0] = 1.0;
+    values[1] = 2.0;
+    values[2] = 3.0;
 
-a_compiled[0.0] /= 1.0;
-#define nums_compiled [object Object]
-
-float[][] grid_compiled = [object Object];
-#define message_compiled float[](72.0,101.0,108.0,108.0,111.0)
-
-// will be converted to float[]
-
-// --- Top-level increment/decrement ---
-
-nums_compiled[2.0]++;
-nums_compiled[1.0]--;
-// --- Class declaration ---
-
-typedef struct {
-float x_compiled;
-float y_compiled;
-} Vec2_compiled;
-
-// --- Function declarations ---
-
-float add_compiled(float a_compiled, float b_compiled) {
-return a_compiled + b_compiled;
+    float sum =
+        values[0] +
+        values[1] +
+        values[2];
 }
-float computePower_compiled(float a_compiled, float b_compiled) {
-float result_compiled = pow(a_compiled, b_compiled);
-return result_compiled;
+
+void everything() {
+
+    Light light;
+
+    light.position =
+        vec3(
+            1.0,
+            2.0,
+            3.0
+        );
+
+    light.color =
+        vec3(
+            0.5,
+            0.7,
+            1.0
+        );
+
+    light.intensity =
+        multiply(
+            4.0,
+            2.0
+        );
+
+    vec3 outputColor;
+
+    float factor =
+        1.5;
+
+    modifyColor(
+        light.color,
+        outputColor,
+        factor
+    );
+
+    vec3 finalColor =
+        normalizeColor(
+            outputColor
+        );
+
+    float result =
+        complexMath(
+            PI
+        );
+
+    result =
+        result +
+        loopsAndConditions(
+            10
+        );
+
+    result =
+        result +
+        switchExample(
+            1
+        );
 }
-float matrixSum_compiled(float[][] m_compiled) {
-float sum_compiled = 0.0;
-for(float_compiled i_compiled = 0.0;i_compiled < 2.0;i_compiled++) {
-for(float_compiled j_compiled = 0.0;j_compiled < 2.0;j_compiled++) {
-sum_compiled += m_compiled[i_compiled][j_compiled];
-}
-}
-return sum_compiled;
-}
-float chooseValue_compiled(float x_compiled) {
-return x_compiled > 5.0 ? 10.0 : x_compiled == 5.0 ? 5.0 : 0.0;
-}
-// --- Main function demonstrating features ---
-
-void_compiled main_compiled() {
-float_compiled intensity_compiled = pos_compiled.x_compiled * grid_compiled[0.0][1.0];
-// Math functions
-
-float angle_compiled = Math.atan2_compiled(pos_compiled.y_compiled,pos_compiled.x_compiled);
-float maxVal_compiled = max(nums_compiled[0.0],nums_compiled[1.0]);
-// Increment/decrement
-
-nums_compiled[0.0]++;
-nums_compiled[1.0]--;
-// Ternary usage
-
-float_compiled val_compiled = chooseValue_compiled(nums_compiled[0.0]);
-// If/else
-
-if(nums_compiled[0.0] > 5.0) {
-nums_compiled[0.0] = 0.0;
-} else if(nums_compiled[0.0] == 5.0) {
-nums_compiled[0.0] = 1.0;
-} else {
-nums_compiled[0.0] = -1.0;
-}
-// While loop
-
-float counter_compiled = 0.0;
-while(counter_compiled < 3.0) {
-counter_compiled++;
-}
-// Do-while loop
-
-float d_compiled = 0.0;
-do {
-d_compiled++;
-} while(d_compiled < 2.0);
-// Switch statement
-
-switch(nums_compiled[0.0]) {
-case 0.0:
-nums_compiled[0.0] = 100.0;break_compiled;case 1.0:
-nums_compiled[0.0] = 200.0;break_compiled;default:
-nums_compiled[0.0] = -1.0;
-}
-// Compute matrix sum
-
-float_compiled total_compiled = matrixSum_compiled(grid_compiled);
-// Compute power
-
-float power_compiled = computePower_compiled(2.0,3.0);
-// Log all results (just for demonstration)
-
-}
-// Execute main
-
-main_compiled();
 ```
