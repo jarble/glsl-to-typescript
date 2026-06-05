@@ -1,4 +1,4 @@
-# TypeScript to GLSL
+# GLSL to TypeScript
  [A GLSL-to-TypeScript compiler](https://jarble.github.io/glsl-to-typescript/typescript_to_glsl.html#function%20add(a,b):number%7B%0Areturn%20a%20+%20b;%0A%7D)
 
 Still a work-in-progress.
